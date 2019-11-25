@@ -2,13 +2,13 @@ import Container from "@material-ui/core/Container";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
 import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
 import makeStyles from "@material-ui/styles/makeStyles";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -19,12 +19,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function OverviewTabPanel() {
+function OverviewTabPanel({ benchmark, setBenchmark }) {
   const classes = useStyles();
 
   const inputLabel = useRef(null);
 
-  const [benchmark, setBenchmark] = useState("");
+  const [labelWidth, setLabelWidth] = React.useState(0);
+
+  useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+  }, []);
 
   function handleChange({ target }) {
     setBenchmark(target.value);
@@ -45,21 +49,23 @@ function OverviewTabPanel() {
 
           <Grid item xs={6}>
             <FormControl variant="outlined" className={classes.formControl}>
-              <InputLabel ref={inputLabel} htmlFor="benchmark">
+              <InputLabel ref={inputLabel} id="benchmark">
                 Which benchmark do you want to compare?
               </InputLabel>
 
               <Select
-                value={benchmark}
-                onChange={handleChange}
                 input={<OutlinedInput name="age" id="outlined-age-simple" />}
+                label="benchmark"
+                labelWidth={labelWidth}
+                onChange={handleChange}
+                value={benchmark}
               >
-                <MenuItem value="">
-                  <em>None</em>
+                <MenuItem value="ACB">
+                  60% stocks (VTSMX ETF) / 40% bonds (VBMFX ETF)
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value="AMRN">
+                  20% stocks (VTSMX ETF) / 80% bonds (VBMFX ETF)
+                </MenuItem>
               </Select>
             </FormControl>
           </Grid>

@@ -1,10 +1,13 @@
+import CssBaseline from "@material-ui/core/CssBaseline";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import dotenv from "dotenv";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import theme from "./theme";
-import CssBaseline from "@material-ui/core/CssBaseline";
+
+dotenv.config();
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

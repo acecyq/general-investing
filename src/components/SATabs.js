@@ -6,22 +6,21 @@ import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import makeStyles from "@material-ui/styles/makeStyles";
 import React from "react";
-import OverviewTabPanel from "./OverviewTabPanel";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(({ palette }) => ({
   container: {
     display: "flex"
   },
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: palette.background.paper
   }
 }));
 
 function a11yProps(index) {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`
+    id: `portfolio-views`,
+    "aria-controls": `portfolio-views-${index}`
   };
 }
 
@@ -42,7 +41,7 @@ function SATabs() {
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label="simple tabs example"
+            aria-label="portfolio views"
           >
             {tabs.map((label, index) => (
               <Tab key={label} label={label} {...a11yProps(index)} />
@@ -54,8 +53,6 @@ function SATabs() {
           <Button color="inherit">More actions</Button>
         </Container>
       </AppBar>
-
-      <OverviewTabPanel />
     </div>
   );
 }
