@@ -8,32 +8,45 @@ import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/styles/makeStyles";
+import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
+import clsx from "clsx";
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    paddingTop: 20
-  },
+const useStyles = makeStyles(({ palette }) => ({
   formControl: {
+    backgroundColor: palette.common.white,
     width: "80%"
   },
   header: {
-    fontWeight: 600
-  },
-  leftGrid: {
-    backgroundColor: "rgb(247, 247, 247)"
+    fontWeight: 600,
+    padding: "25px 0 20px 5px"
   },
   leftGridText: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
+    fontWeight: 600,
+    width: "90%"
+  },
+  leftGridTitle: {
+    color: palette.tertiary.main
   },
   paper: {
-    display: "flex"
+    backgroundColor: "rgb(247, 247, 247)",
+    display: "flex",
+    height: 150
   },
   rightGrid: {
     backgroundColor: "rgb(234, 236, 239)"
+  },
+  vs: {
+    backgroundColor: palette.tertiary.main,
+    borderRadius: "50%",
+    height: 50,
+    marginRight: -25,
+    width: 50,
+    zIndex: 1
+  },
+  vsText: {
+    color: palette.common.white,
+    fontWeight: 600
   }
 }));
 
@@ -55,36 +68,69 @@ function OverviewTabPanel({ benchmark, setBenchmark }) {
   return (
     <div className={classes.container}>
       <Container>
-        <Typography className={classes.header} color="primary" variant="h6">
+        <Typography className={classes.header} color="primary" variant="h5">
           Portfolio benchmark
         </Typography>
 
         <Paper className={classes.paper} elevation={0}>
           <Grid container item xs={7} className={classes.leftGrid}>
-            <Typography className={classes.leftGridText}>
-              <p>General investing</p>
-              <p>Stashaway Risk Index 14%</p>
-            </Typography>
+            <Grid container item xs alignContent="center" justify="center">
+              <Typography className={classes.leftGridText} color="primary">
+                General investing
+              </Typography>
+              <br />
+              <Typography
+                className={clsx(classes.leftGridTitle, classes.leftGridText)}
+                variant="h6"
+              >
+                Stashaway Risk Index 14%
+              </Typography>
+            </Grid>
+
+            <Grid container item xs alignContent="center" justify="flex-end">
+              <Grid
+                container
+                item
+                className={classes.vs}
+                alignContent="center"
+                justify="center"
+              >
+                <Typography className={classes.vsText} variant="subtitle1">
+                  VS
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
 
-          <Grid container item xs={5} className={classes.rightGrid}>
-            <FormControl variant="outlined" className={classes.formControl}>
+          <Grid
+            container
+            item
+            xs={5}
+            className={classes.rightGrid}
+            alignContent="center"
+            justify="center"
+          >
+            <FormControl variant="filled" className={classes.formControl}>
               <InputLabel ref={inputLabel} id="benchmark">
                 Which benchmark do you want to compare?
               </InputLabel>
 
               <Select
+                value={benchmark}
+                onChange={handleChange}
                 input={<OutlinedInput name="age" id="outlined-age-simple" />}
                 label="benchmark"
                 labelWidth={labelWidth}
-                onChange={handleChange}
-                value={benchmark}
               >
                 <MenuItem value="ACB">
-                  60% stocks (VTSMX ETF) / 40% bonds (VBMFX ETF)
+                  <Typography color="primary">
+                    60% stocks (VTSMX ETF) / 40% bonds (VBMFX ETF)
+                  </Typography>
                 </MenuItem>
                 <MenuItem value="AMRN">
-                  20% stocks (VTSMX ETF) / 80% bonds (VBMFX ETF)
+                  <Typography color="primary">
+                    20% stocks (VTSMX ETF) / 80% bonds (VBMFX ETF)
+                  </Typography>
                 </MenuItem>
               </Select>
             </FormControl>
@@ -96,3 +142,8 @@ function OverviewTabPanel({ benchmark, setBenchmark }) {
 }
 
 export default OverviewTabPanel;
+
+OverviewTabPanel.propTypes = {
+  benchmark: PropTypes.string.isRequired,
+  setBenchmark: PropTypes.func.isRequired
+};

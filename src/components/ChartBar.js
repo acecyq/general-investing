@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/styles/makeStyles";
 import React from "react";
 import SelectButton from "./SelectButton";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   appBar: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
     display: "flex"
   },
   root: {
+    padding: "25px 0 15px",
     flexGrow: 1
   },
   menuButton: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-function ChartBar({ currency, daily, period, setCurrency, setPeriod }) {
+function ChartBar({ currency, period, setCurrency, setPeriod }) {
   const classes = useStyles();
 
   function handleCurrency(value) {
@@ -37,7 +39,7 @@ function ChartBar({ currency, daily, period, setCurrency, setPeriod }) {
 
   return (
     <div className={classes.root}>
-      <AppBar className={classes.appBar} position="static">
+      <AppBar className={classes.appBar} elevation={0} position="static">
         <Container classes={{ root: classes.container }}>
           <SelectButton control={period} onClick={handlePeriod}>
             1 month
@@ -73,3 +75,10 @@ function ChartBar({ currency, daily, period, setCurrency, setPeriod }) {
 }
 
 export default ChartBar;
+
+ChartBar.propTypes = {
+  currency: PropTypes.string.isRequired,
+  period: PropTypes.string.isRequired,
+  setCurrency: PropTypes.func.isRequired,
+  setPeriod: PropTypes.func.isRequired
+};

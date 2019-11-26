@@ -13,15 +13,21 @@ const useStyles = makeStyles(({ palette }) => ({
   container: {
     display: "flex"
   },
+  expandText: {
+    fontSize: 13
+  },
+  icon: {
+    height: 15
+  },
   indicator: {
-    backgroundColor: palette.text.primary
+    backgroundColor: palette.secondary.main
   },
   root: {
     backgroundColor: palette.background.paper,
     flexGrow: 1
   },
   selected: {
-    color: palette.text.primary
+    color: palette.secondary.main
   },
   tab: {
     textTransform: "none",
@@ -69,14 +75,10 @@ function SATabs() {
           <Grid item xs />
 
           <ButtonBase className={classes.button} color="inherit">
-            <Typography
-              className={classes.link}
-              component="span"
-              variant="subtitle1"
-            >
+            <Typography className={classes.expandText} component="span">
               More actions
             </Typography>
-            <ExpandMoreIcon />
+            <ExpandMoreIcon className={classes.icon} />
           </ButtonBase>
         </Container>
       </AppBar>

@@ -12,15 +12,15 @@ import { formatLabel } from "./utilities/utilities";
 
 function App() {
   const [aaplData, setAaplData] = useState(null);
-  const [benchmark, setBenchmark] = useState("");
+  const [benchmark, setBenchmark] = useState("ACB");
   const [benchmarkData, setBenchmarkData] = useState(null);
-  const [currency, setCurrency] = useState("");
+  const [currency, setCurrency] = useState("USD");
   const [daily, setDaily] = useState({});
   const [factor, setFactor] = useState(null);
   const [labels, setLabels] = useState(null);
   const [loading, setLoading] = useState(false);
   const [monthly, setMonthly] = useState({});
-  const [period, setPeriod] = useState("");
+  const [period, setPeriod] = useState("6 months");
 
   useEffect(() => {
     async function getCurrency() {
@@ -170,6 +170,8 @@ function App() {
     } finally {
       setLoading(false);
     }
+
+    // eslint-disable-next-line
   }, [benchmark, currency, period]);
 
   const chartBarProps = {
@@ -183,6 +185,7 @@ function App() {
     aaplData,
     benchmark,
     benchmarkData,
+    currency,
     labels,
     loading
   };
