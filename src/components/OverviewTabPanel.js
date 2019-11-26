@@ -11,11 +11,29 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import React, { useEffect, useRef } from "react";
 
 const useStyles = makeStyles(theme => ({
+  container: {
+    paddingTop: 20
+  },
   formControl: {
     width: "80%"
   },
+  header: {
+    fontWeight: 600
+  },
+  leftGrid: {
+    backgroundColor: "rgb(247, 247, 247)"
+  },
+  leftGridText: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
   paper: {
     display: "flex"
+  },
+  rightGrid: {
+    backgroundColor: "rgb(234, 236, 239)"
   }
 }));
 
@@ -35,19 +53,21 @@ function OverviewTabPanel({ benchmark, setBenchmark }) {
   }
 
   return (
-    <div>
+    <div className={classes.container}>
       <Container>
-        <Typography>Portfolio benchmark</Typography>
+        <Typography className={classes.header} color="primary" variant="h6">
+          Portfolio benchmark
+        </Typography>
 
         <Paper className={classes.paper} elevation={0}>
-          <Grid item xs={6}>
-            <Typography component="div">
+          <Grid container item xs={7} className={classes.leftGrid}>
+            <Typography className={classes.leftGridText}>
               <p>General investing</p>
               <p>Stashaway Risk Index 14%</p>
             </Typography>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid container item xs={5} className={classes.rightGrid}>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel ref={inputLabel} id="benchmark">
                 Which benchmark do you want to compare?

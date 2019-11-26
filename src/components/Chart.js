@@ -1,96 +1,93 @@
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import React, { useState } from "react";
+import React from "react";
 import { Line } from "react-chartjs-2";
 import { dateToString } from "../utilities/utilities";
-import Spinner from "./Spinner";
+import PropTypes from "prop-types";
+
+const dataDefaults = {
+  fill: false,
+  lineTension: 0.1,
+  borderJoinStyle: "miter",
+  borderWidth: 3,
+  pointBorderColor: "rgba(75,192,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 5,
+  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+  pointHoverBorderColor: "rgba(220,220,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 1,
+  pointHitRadius: 10,
+  spanGaps: true
+};
+
+const labelMapping = {
+  ACB: "60% stocks (VTSMX ETF) / 40% bonds (VBMFX ETF)",
+  AMRN: "20% stocks (VTSMX ETF) / 80% bonds (VBMFX ETF)"
+};
 
 const legend = {
   display: true,
-  fullWidth: true,
   labels: {
+    boxWidth: 20,
     fontColor: "black"
   },
   position: "bottom"
 };
 
-function Chart({ daily, labels }) {
-  const [loading, setLoading] = useState(false);
+function Chart({ aaplData, benchmark, benchmarkData, labels, loading }) {
+  if (loading || !labels || !aaplData || !benchmarkData) {
+    return <div />;
+  }
 
   const data = {
-    labels: [1, 2, 3, 4, 5, 6, 7, 8],
+    labels,
     datasets: [
       {
+        ...dataDefaults,
         label: "StashAway Risk Index 14%",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
-        borderCapStyle: "butt",
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,192,192,1)",
-        pointBackgroundColor: "#fff",
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: [10, undefined, undefined, 12, 13, undefined, 11, undefined]
+        borderColor: "blue",
+        data: aaplData
       },
       {
-        label: "Testing",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
-        borderCapStyle: "butt",
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,192,192,1)",
-        pointBackgroundColor: "#fff",
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: [15, 16, 15, 14, 15, 17, 16, 18]
+        label: labelMapping[benchmark],
+        borderColor: "red",
+        data: benchmarkData
       }
     ]
   };
 
-  // if (!loading && (!daily.length || !labels.length)) {
-  //   return <div />;
-  // }
-
   return (
-    <div>
-      <Container>
-        {loading && <Spinner />}
+    <Container>
+      <Typography>Portfolio value based on gross returns</Typography>
+      <Typography>
+        Gross returns and exchange rates sourced from Bloomberg as of{" "}
+        {dateToString()}
+      </Typography>
 
-        {!loading && (
-          <div>
-            <Typography>Portfolio value based on gross returns</Typography>
-            <Typography>
-              Gross returns and exchange rates sourced from Bloomberg as of{" "}
-              {dateToString()}
-            </Typography>
-
-            <Paper>
-              <Line data={data} legend={legend} />
-            </Paper>
-          </div>
-        )}
-      </Container>
-    </div>
+      <Paper>
+        <Line data={data} legend={legend} />
+      </Paper>
+    </Container>
   );
 }
 
 export default Chart;
+
+Chart.propTypes = {
+  aaplData: PropTypes.array,
+  benchmark: PropTypes.string,
+  benchmarkData: PropTypes.array,
+  labels: PropTypes.array,
+  loading: PropTypes.bool
+};
+
+Chart.defaultProps = {
+  aaplData: [],
+  benchmark: "",
+  benchmarkData: [],
+  labels: [],
+  loading: false
+};

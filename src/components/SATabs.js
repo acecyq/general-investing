@@ -1,9 +1,11 @@
 import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
+import ButtonBase from "@material-ui/core/ButtonBase";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import makeStyles from "@material-ui/styles/makeStyles";
 import React from "react";
 
@@ -11,9 +13,19 @@ const useStyles = makeStyles(({ palette }) => ({
   container: {
     display: "flex"
   },
+  indicator: {
+    backgroundColor: palette.text.primary
+  },
   root: {
-    flexGrow: 1,
-    backgroundColor: palette.background.paper
+    backgroundColor: palette.background.paper,
+    flexGrow: 1
+  },
+  selected: {
+    color: palette.text.primary
+  },
+  tab: {
+    textTransform: "none",
+    minWidth: 0
   }
 }));
 
@@ -42,15 +54,30 @@ function SATabs() {
             value={value}
             onChange={handleChange}
             aria-label="portfolio views"
+            TabIndicatorProps={{ className: classes.indicator }}
           >
             {tabs.map((label, index) => (
-              <Tab key={label} label={label} {...a11yProps(index)} />
+              <Tab
+                classes={{ root: classes.tab, selected: classes.selected }}
+                key={label}
+                label={label}
+                {...a11yProps(index)}
+              />
             ))}
           </Tabs>
 
           <Grid item xs />
 
-          <Button color="inherit">More actions</Button>
+          <ButtonBase className={classes.button} color="inherit">
+            <Typography
+              className={classes.link}
+              component="span"
+              variant="subtitle1"
+            >
+              More actions
+            </Typography>
+            <ExpandMoreIcon />
+          </ButtonBase>
         </Container>
       </AppBar>
     </div>

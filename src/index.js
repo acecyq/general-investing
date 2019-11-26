@@ -9,6 +9,8 @@ import theme from "./theme";
 
 dotenv.config();
 
+console.log("===>", process.env.REACT_APP_API_KEY);
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
